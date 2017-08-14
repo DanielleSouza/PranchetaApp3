@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html>
+	<!--
+  * Please see the included README.md file for license terms and conditions.
+  -->
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="media_button_bar/css/media_button_bar.css">
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+		<meta charset="UTF-8">
+		<title>PranchetaApp3</title>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+		<!--
+  * The "meta viewport" tag (below) helps your app size appropriately to a device's ideal viewport.
+  * Note that Windows device viewports work better when initialized using the @viewport CSS rule.
+  * For a quick overview of "meta viewport" and @viewport, see this article:
+  *   http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/quick-tip-dont-forget-the-viewport-meta-tag
+  * To see how it works, try your app on a real device with and without a "meta viewport" tag.
+  * Additional useful references include:
+  *   http://www.quirksmode.org/mobile/viewports.html
+  *   http://www.quirksmode.org/mobile/metaviewport/devices.html
+  *   https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html
+-->
+
+		<!-- <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1"> -->
+		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=no">
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=2"> -->
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+
+		<style>
+			/* following three (cascaded) are equivalent to above three meta viewport statements */
+			            /* see http://www.quirksmode.org/blog/archives/2014/05/html5_dev_conf.html */
+			            /* see http://dev.w3.org/csswg/css-device-adapt/ */
+			                @-ms-viewport { width: 100vw ; min-zoom: 100% ; zoom: 100% ; }          @viewport { width: 100vw ; min-zoom: 100% zoom: 100% ; }
+			                @-ms-viewport { user-zoom: fixed ; min-zoom: 100% ; }                   @viewport { user-zoom: fixed ; min-zoom: 100% ; }
+			                /*@-ms-viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }   @viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }*/
+		</style>
+
+		<link rel="stylesheet" href="css/app.css">
+		<link rel="stylesheet" type="text/css" href="css/index_main.less.css" class="main-less">
+		<link rel="stylesheet" type="text/css" href="css/index_main.less.css" class="main-less">
+		<link rel="stylesheet" type="text/css" href="css/index_main.less.css" class="main-less">
+
+		<!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+		<!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work below -->
+		<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+
+		<!-- Recommended location for your JavaScript libraries -->
+		<!-- These library references (below) are just examples to give you the general idea... -->
+		<!-- <script src="lib/mc/hammer.js"></script> -->
+		<!-- <script src="lib/ft/fastclick.js"></script> -->
+
+		<!--
+  * cordova.js is a phantom lib for "Cordova HTML5 web app," it does nothing in a "Standard HTML5 web app"
+  * Seeing a "Failed to load resource: net::ERR_FILE_NOT_FOUND" message caused by this "cordova.js" script?
+  * The cordova.js script is required if you convert your "Standard HTML5" project into a "Cordova" project.
+  * You can safely ignore the error or comment out this line if you will not be developing a Cordova app.
+-->
+		<script src="cordova.js"></script>
+		<script src="js/app.js"></script>
+		<!-- for your event code, see README and file comments for details -->
+		<script src="js/init-app.js"></script>
+		<!-- for your init code, see README and file comments for details -->
+		<script src="xdk/init-dev.js"></script>
+		<!-- normalizes device and document ready events, see file for details -->
+		<script type="application/javascript" src="lib/jquery.min.js"></script>
+		<script type="application/javascript" src="marginal/marginal-position.min.js"></script>
+		<script type="application/javascript" src="sidebar/js/hammer.js"></script>
+		<script type="application/javascript" src="sidebar/js/jquery.hammer.js"></script>
+		<script type="application/javascript" src="sidebar/js/swipe-hammer.js"></script>
+		<script type="application/javascript" src="sidebar/js/sidebar.js"></script>
+		<script type="application/javascript" src="js/index_user_scripts.js"></script>
+		<script type="application/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			function sairdoapp(){
+				navigator.app.exitApp();
+			}
+		</script>
+		<script type="text/javascript">
+			function allowDrop(ev) {
+			                    ev.preventDefault();
+			                }
+			
+			                function drag(ev) {
+			                    ev.dataTransfer.setData("text", ev.target.id);
+			                }
+			
+			                function drop(ev) {
+			                    ev.preventDefault();
+			                    var data = ev.dataTransfer.getData("text");
+			                    ev.target.appendChild(document.getElementById(data));
+			                }
+		</script>
+
+		<script type="application/javascript" src="xdk/appdesigner/js/rest-of-space.js"></script>
+	</head>
+
+	<body class="background">
+
+		<!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+		<!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work above -->
+		<!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+		<div class="upage" id="mainpage">
+
+			<div class="upage-outer">
+
+				<div class="uib-header header-bg container-group inner-element uib_w_1" data-uib="layout/header" data-ver="0">
+					<h2>PRANCHETA APP</h2>
+					<div class="widget-container content-area horiz-area wrapping-col left">
+						<button class="btn widget uib_w_2 btn-sd-style btn-sd-rb btn-lg btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-sd"><i class="glyphicon glyphicon-align-justify" data-position="icon only"></i>
+						</button>
+					</div>
+					<div class="widget-container content-area horiz-area wrapping-col right">
+						<button class="btn widget uib_w_2 btn-sd-style btn-sd-rb btn-lg btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-sair"><i class="glyphicon glyphicon-remove" data-position="icon only"></i>
+						</button>
+					</div>
+				</div>
+
+				<div class="inner-element uib_w_3 uib_sidebar leftbar bar-bg thumb-bg bar-gutter swipe" data-uib="layout/left_sidebar" data-ver="1" data-anim="{'style':'overlap', 'v':200, 'side':'left', 'dur':100}" id="sd">
+					<div class="sidebar-content content-area vertical-col">
+						<button class="btn widget uib_w_9 btn-recolher-sd btn-lg btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-recolher-sd"><i class="glyphicon glyphicon-arrow-left" data-position="icon only"></i>
+						</button>
+						<div class="panel-group no_wrap widget uib_w_21 margins-acordion" data-uib="twitter%20bootstrap/accordion" data-ver="1" id="bs-accordion-0">
+							<div class="panel widget uib_w_22 panel-success" data-uib="twitter%20bootstrap/collapsible" data-ver="1">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+           <a class="accordion-toggle" data-toggle="collapse" href="#bs-accordion-group-0" data-parent="#bs-accordion-0">5X1</a>
+       </h4>
+								</div>
+								<div id="bs-accordion-group-0" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div class="col uib_col_2 single-col" data-uib="layout/col" data-ver="0">
+											<div class="widget-container content-area vertical-col">
+												<button class="btn widget uib_w_26 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Recepção</button>
+												<button class="btn widget uib_w_27 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Entrada</button>
+												<button class="btn widget uib_w_28 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Meio</button>
+												<button class="btn widget uib_w_29 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Saída</button>
+												<button class="btn widget uib_w_30 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Entrada</button>
+												<button class="btn widget uib_w_31 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Meio</button>
+												<button class="btn widget uib_w_32 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Saida</button>
+												<span class="uib_shim"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel widget uib_w_23 panel-success" data-uib="twitter%20bootstrap/collapsible" data-ver="1">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+           <a class="accordion-toggle" data-toggle="collapse" href="#bs-accordion-group-1" data-parent="#bs-accordion-0">4X2</a>
+       </h4>
+								</div>
+								<div id="bs-accordion-group-1" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div class="col uib_col_3 single-col" data-uib="layout/col" data-ver="0">
+											<div class="widget-container content-area vertical-col">
+												<button class="btn widget uib_w_33 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Recepção</button>
+												<button class="btn widget uib_w_34 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Entrada</button>
+												<button class="btn widget uib_w_35 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Meio</button>
+												<button class="btn widget uib_w_36 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Saída</button>
+												<button class="btn widget uib_w_37 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Entrada</button>
+												<button class="btn widget uib_w_38 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Meio</button>
+												<button class="btn widget uib_w_39 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Saída</button>
+												<span class="uib_shim"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel widget uib_w_24 panel-success" data-uib="twitter%20bootstrap/collapsible" data-ver="1">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+           <a class="accordion-toggle" data-toggle="collapse" href="#bs-accordion-group-2" data-parent="#bs-accordion-0">3X3</a>
+       </h4>
+								</div>
+								<div id="bs-accordion-group-2" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div class="col uib_col_4 single-col" data-uib="layout/col" data-ver="0">
+											<div class="widget-container content-area vertical-col">
+												<button class="btn widget uib_w_40 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Recepçao</button>
+												<button class="btn widget uib_w_41 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Entrada</button>
+												<button class="btn widget uib_w_42 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Saída</button>
+												<button class="btn widget uib_w_43 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Entrada</button>
+												<button class="btn widget uib_w_49 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Saida</button>
+												<span class="uib_shim"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel widget uib_w_25 panel-success" data-uib="twitter%20bootstrap/collapsible" data-ver="1">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+           <a class="accordion-toggle" data-toggle="collapse" href="#bs-accordion-group-3" data-parent="#bs-accordion-0">6X6</a>
+       </h4>
+								</div>
+								<div id="bs-accordion-group-3" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div class="col uib_col_5 single-col" data-uib="layout/col" data-ver="0">
+											<div class="widget-container content-area vertical-col">
+												<button class="btn widget uib_w_44 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Recepção</button>
+												<button class="btn widget uib_w_45 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Entrada</button>
+												<button class="btn widget uib_w_46 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Saída</button>
+												<button class="btn widget uib_w_47 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Entrada</button>
+												<button class="btn widget uib_w_48 d-margins btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1">Saída</button>
+												<span class="uib_shim"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="upage-content ac0 content-area vertical-col fixed" id="page_38_97">
+
+					<div class="grid grid-pad urow uib_row_1 row-height-1" data-uib="layout/row" data-ver="0">
+
+						<div id="00" class="col uib_col_8 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col left">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="10" class="col uib_col_103 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="01" class="col uib_col_64 col-0_1-12_1-6_1-3_1-2 fixed" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="02" class="col uib_col_9 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="03" class="col uib_col_60 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="04" class="col uib_col_62 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="05" class="col uib_col_61 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col left">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="06" class="col uib_col_14 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="07" class="col uib_col_59 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="08" class="col uib_col_58 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="11" class="col uib_col_121 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="09" class="col uib_col_11 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col left">
+
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+
+					<div class="grid grid-pad urow uib_row_2 row-height-2" data-uib="layout/row" data-ver="0">
+
+						<div id="12" class="col uib_col_16 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="13" class="col uib_col_70 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="14" class="col uib_col_26 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_50 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="levantador" src="images/levantador.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="15" class="col uib_col_69 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="16" class="col uib_col_65 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="17" class="col uib_col_68 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_51 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="libero" src="images/libero.png" draggable="true" ondragstart="drag(event)">
+
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="18" class="col uib_col_66 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="19" class="col uib_col_67 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="20" class="col uib_col_22 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_52 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="pontaa3" src="images/pontaa3.png" draggable="true" ondragstart="drag(event)">
+
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="21" class="col uib_col_24 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="23" class="col uib_col_122 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="22" class="col uib_col_25 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_62 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="central2" src="images/central2.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+
+					<div class="grid grid-pad urow uib_row_3 row-height-3" data-uib="layout/row" data-ver="0">
+
+						<div id="24" class="col uib_col_76 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="25" class="col uib_col_90 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="26" class="col uib_col_74 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="27" class="col uib_col_75 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="28" class="col uib_col_73 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="29" class="col uib_col_72 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="30" class="col uib_col_71 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="31" class="col uib_col_31 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="32" class="col uib_col_30 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="33" class="col uib_col_27 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="34" class="col uib_col_29 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="35" class="col uib_col_28 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+
+					<div class="grid grid-pad urow uib_row_4 row-height-4" data-uib="layout/row" data-ver="0">
+
+						<div id="36" class="col uib_col_18 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="37" class="col uib_col_82 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="38" class="col uib_col_81 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="39" class="col uib_col_80 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="40" class="col uib_col_79 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="41" class="col uib_col_78 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="42" class="col uib_col_77 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="43" class="col uib_col_37 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="44" class="col uib_col_33 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="45" class="col uib_col_36 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="46" class="col uib_col_123 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="47" class="col uib_col_35 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+
+					<div class="grid grid-pad urow uib_row_5 row-height-5" data-uib="layout/row" data-ver="0">
+
+						<div id="48" class="col uib_col_19 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="49" class="col uib_col_88 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="50" class="col uib_col_87 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_53 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="ponta2" src="images/ponta2.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="51" class="col uib_col_86 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="52" class="col uib_col_42 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="53" class="col uib_col_84 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+
+								<div class="widget uib_w_54 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="centrall3" src="images/centrall3.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="54" class="col uib_col_85 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="55" class="col uib_col_83 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="56" class="col uib_col_40 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_55 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="oposto" src="images/oposto.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="57" class="col uib_col_41 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="58" class="col uib_col_38 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="59" class="col uib_col_39 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+
+					<div class="grid grid-pad urow uib_row_6 row-height-6" data-uib="layout/row" data-ver="0">
+
+						<div id="60" class="col uib_col_20 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="61" class="col uib_col_109 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="62" class="col uib_col_108 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="63" class="col uib_col_107 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="64" class="col uib_col_106 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="65" class="col uib_col_105 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="66" class="col uib_col_104 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="67" class="col uib_col_47 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="68" class="col uib_col_89 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="69" class="col uib_col_45 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="70" class="col uib_col_46 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="71" class="col uib_col_44 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+
+					<div class="grid grid-pad urow uib_row_7 row-height-7" data-uib="layout/row" data-ver="0">
+
+						<div id="72" class="col uib_col_21 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="73" class="col uib_col_113 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="74" class="col uib_col_136 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="75" class="col uib_col_114 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_58 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="opostoB" src="images/opostoB.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="76" class="col uib_col_112 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="77" class="col uib_col_111 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="78" class="col uib_col_110 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_56 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="centrall3B" src="images/centrall3B.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="79" class="col uib_col_52 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="80" class="col uib_col_50 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="81" class="col uib_col_51 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_57 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="pontaa2B" src="images/pontaa2B.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="82" class="col uib_col_48 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="83" class="col uib_col_49 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+
+					<div id="84" class="grid grid-pad urow uib_row_8 row-height-8" data-uib="layout/row" data-ver="0">
+
+						<div class="col uib_col_32 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="85" class="col uib_col_57 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="86" class="col uib_col_120 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="87" class="col uib_col_119 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="88" class="col uib_col_118 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="89" class="col uib_col_117 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="90" class="col uib_col_116 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="91" class="col uib_col_115 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="92" class="col uib_col_56 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="93" class="col uib_col_55 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="94" class="col uib_col_54 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="95" class="col uib_col_53 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+
+					<div class="grid grid-pad urow uib_row_9 row-height-9" data-uib="layout/row" data-ver="0">
+
+						<div id="96" class="col uib_col_91 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="97" class="col uib_col_96 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="98" class="col uib_col_129 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="99" class="col uib_col_128 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="100" class="col uib_col_127 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="101" class="col uib_col_126 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="102" class="col uib_col_125 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="103" class="col uib_col_124 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="104" class="col uib_col_97 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="105" class="col uib_col_95 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="106" class="col uib_col_93 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="107" class="col uib_col_94 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+
+					<div class="grid grid-pad urow uib_row_10 row-height-10" data-uib="layout/row" data-ver="0">
+
+						<div id="108" class="col uib_col_92 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+
+								<div class="widget uib_w_63 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="centrall2B" src="images/centrall2B.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="109" class="col uib_col_102 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="110" class="col uib_col_135 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="111" class="col uib_col_134 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_61 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="pontaa3B" src="images/pontaa3B.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="112" class="col uib_col_133 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="113" class="col uib_col_132 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="114" class="col uib_col_131 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<div class="widget uib_w_59 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="liberoB" src="images/liberoB.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="115" class="col uib_col_130 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<div id="116" class="col uib_col_98 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="117" class="col uib_col_101 col-0_1-12_1-6_1-3_1-1" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+
+								<div class="widget uib_w_60 scale-image d-margins" data-uib="media/img" data-ver="0">
+									<figure class="figure-align">
+										<img id="levantadorB" src="images/levantadorB.png" draggable="true" ondragstart="drag(event)">
+										<figcaption data-position="bottom"></figcaption>
+									</figure>
+								</div><span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="118" class="col uib_col_100 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+						<div id="119" class="col uib_col_99 col-0_1-12_1-6_1-3_1-2" data-uib="layout/col" data-ver="0" ondrop="drop(event)" ondragover="allowDrop(event)">
+							<div class="widget-container content-area vertical-col">
+								<span class="uib_shim"></span>
+							</div>
+						</div>
+
+						<span class="uib_shim"></span>
+					</div>
+				</div>
+
+				<div class="uib-footer uib-footer-fixed footer-bg container-group inner-element uib_w_10 header-show-hide" data-uib="layout/footer" data-ver="0">
+
+					<div class="widget-container wrapping-col single-centered">
+						<div class="btn-group uib-bs-flex widget uib_w_11 d-margins" data-uib="twitter%20bootstrap/button_group" data-ver="1">
+							<button class="btn widget uib_w_12 btn-lg btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-troca-qdr"><i class="glyphicon glyphicon-film" data-position="icon only" onclick="caps()"></i>
+							</button>
+
+							<button class="btn widget uib_w_14 navbtn btn-lg btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-limpar" onclick="newCanvas()"><i class="glyphicon glyphicon-remove" data-position="icon only"></i>
+							</button>
+
+							<a tabindex="0" class="btn widget uib_w_15 btn-lg btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-palheta" role="button" data-toggle="popover" data-placement="top" data-container="body"><i class="glyphicon glyphicon-pencil" data-position="icon only"></i></a>
+
+							<div id="div-popover" class="hide">
+								<div class="btn-group uib-bs-flex widget uib_w_11 d-margins" data-uib="twitter%20bootstrap/button_group" data-ver="1">
+									<button class="btn widget uib_w_16 btn-lg btn-default pallete" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-amarelo" style="background-color: yellow" onclick="selectColor(this)"></button>
+									<button class="btn widget uib_w_17 btn-lg btn-default pallete" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-vermelho" style="background-color: red" onclick="selectColor(this)"></button>
+									<button class="btn widget uib_w_18 btn-lg btn-default pallete" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-azul" style="background-color: blue" onclick="selectColor(this)"></button>
+									<button class="btn widget uib_w_19 btn-lg btn-default pallete" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-preto" style="background-color: black" onclick="selectColor(this)"></button>
+									<div style="clear:both"></div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="widget-container content-area horiz-area wrapping-col left"></div>
+					<div class="widget-container content-area horiz-area wrapping-col right"></div>
+				</div>
+			</div>
+
+			<div class="modal outer-element uib_w_4 md-style" data-uib="twitter%20bootstrap/modal" data-ver="1" data-backdrop="true" id="md">
+				<div class="modal-dialog">
+					<div class="modal-content ">
+						<div class="modal-header">
+							<button class="close" data-dismiss="modal">x</button>
+							<h4 class="modal-title">DESEJA SAIR DA APLICAÇÃO?</h4>
+						</div>
+
+						<div class="modal-body">
+							<div class="col uib_col_1 single-col md-style" data-uib="layout/col" data-ver="0">
+								<div class="widget-container content-area vertical-col">
+									<div class="btn-group uib-bs-flex widget uib_w_5 d-margins" data-uib="twitter%20bootstrap/button_group" data-ver="1">
+										<button class="btn widget uib_w_6 btn-lg btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btn-sair-sim" onclick="sairdoapp()">SIM</button>
+										<button class="btn widget uib_w_8 btn-lg btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="BTN-SAIR-NAO">NÃO</button>
+									</div>
+
+									<span class="uib_shim"></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer"></div>
+					</div>
+				</div>
+			</div>
+			<div id="content" class="teladefundo"></div>
+		</div>
+
+		<style>
+			#peca_um {
+			            display: block;
+			            max-width: 100%;
+			            margin: auto;
+			        }
+			
+			        #peca_um.reset {
+			            transition: -webkit-transform 0.3s ease-in-out;
+			            transition: transform 0.3s ease-in-out;
+			        }
+		</style>
+
+		<style>
+			.navbtn{
+			                cursor: pointer;
+			            }
+			            .pallete {
+			                border:2px solid #777;
+			                height:36px;
+			                width:36px;
+			            }
+			            #content{
+			                position: absolute;
+			                top: 44px;
+			                left: 0px;
+			                right: 0px;
+			                bottom: 46px;
+			                overflow:hidden;
+			                background-color:#ddd;
+			            }
+			            #canvas{
+			                cursor:crosshair ;
+			                background-color:transparent;
+			            }
+		</style>
+
+		<script type="application/javascript">
+			var ctx, color = "#000";	
+			document.addEventListener( "DOMContentLoaded", function(){
+				// setup a new canvas for drawing wait for device init
+			    setTimeout(function(){
+				   newCanvas();
+			    }, 1000);
+			}, false );
+			// function to setup a new canvas for drawing
+			function newCanvas(){
+				//define and resize canvas
+			    document.getElementById("content").style.height = window.innerHeight-90;
+			    var canvas = '<canvas id="canvas" width="'+window.innerWidth+'" height="'+(window.innerHeight-90)+'"></canvas>';
+				document.getElementById("content").innerHTML = canvas;
+			    
+			    // setup canvas
+				ctx=document.getElementById("canvas").getContext("2d");
+				ctx.strokeStyle = color;
+				ctx.lineWidth = 2;	
+				
+				// setup to trigger drawing on mouse or touch
+			    drawTouch();
+			    drawPointer();
+				drawMouse();
+			}
+			        
+			function selectColor(el){
+			    for(var i=0;i<document.getElementsByClassName("palette").length;i++){
+			        document.getElementsByClassName("palette")[i].style.borderColor = "#777";
+			        document.getElementsByClassName("palette")[i].style.borderStyle = "solid";
+			    }
+			    el.style.borderColor = "#fff";
+			    el.style.borderStyle = "dashed";
+			    color = window.getComputedStyle(el).backgroundColor;
+			    ctx.beginPath();
+			    ctx.strokeStyle = color;
+			}
+			// prototype to	start drawing on touch using canvas moveTo and lineTo
+			var drawTouch = function() {
+				var start = function(e) {
+					ctx.beginPath();
+					x = e.changedTouches[0].pageX;
+					y = e.changedTouches[0].pageY-44;
+					ctx.moveTo(x,y);
+				};
+				var move = function(e) {
+					e.preventDefault();
+					x = e.changedTouches[0].pageX;
+					y = e.changedTouches[0].pageY-44;
+					ctx.lineTo(x,y);
+					ctx.stroke();
+				};
+			    document.getElementById("canvas").addEventListener("touchstart", start, false);
+				document.getElementById("canvas").addEventListener("touchmove", move, false);
+			}; 
+			    
+			// prototype to	start drawing on pointer(microsoft ie) using canvas moveTo and lineTo
+			var drawPointer = function() {
+				var start = function(e) {
+			        e = e.originalEvent;
+					ctx.beginPath();
+					x = e.pageX;
+					y = e.pageY-44;
+					ctx.moveTo(x,y);
+				};
+				var move = function(e) {
+					e.preventDefault();
+			        e = e.originalEvent;
+					x = e.pageX;
+					y = e.pageY-44;
+					ctx.lineTo(x,y);
+					ctx.stroke();
+			    };
+			    document.getElementById("canvas").addEventListener("MSPointerDown", start, false);
+				document.getElementById("canvas").addEventListener("MSPointerMove", move, false);
+			};        
+			// prototype to	start drawing on mouse using canvas moveTo and lineTo
+			var drawMouse = function() {
+				var clicked = 0;
+				var start = function(e) {
+					clicked = 1;
+					ctx.beginPath();
+					x = e.pageX;
+					y = e.pageY-44;
+					ctx.moveTo(x,y);
+				};
+				var move = function(e) {
+					if(clicked){
+						x = e.pageX;
+						y = e.pageY-44;
+						ctx.lineTo(x,y);
+						ctx.stroke();
+					}
+				};
+				var stop = function(e) {
+					clicked = 0;
+				};
+			    document.getElementById("canvas").addEventListener("mousedown", start, false);
+				document.getElementById("canvas").addEventListener("mousemove", move, false);
+				document.addEventListener("mouseup", stop, false);
+			};
+		</script>
+
+		<script type="text/javascript">
+			$(document).ready(function (){
+			                
+			              // Associa o evento do popover ao clicar no link.
+			              $('#btn-palheta').popover({
+			                  trigger: 'focus',
+			                  html: true,
+			                  content: $('#div-popover').html() // Adiciona o conteúdo da div oculta para dentro do popover.
+			              }).click(function (e) {
+			                 e.preventDefault();
+			                 // Exibe o popover.
+			                 $(this).popover('show');
+			               });
+			                
+			            });
+		</script>
+
+		<script>
+			$(document).ready(function(){
+			             $('[data-toggle="popover"]').popover(); 
+			            });
+		</script>
+
+		<script type="text/javascript">
+			var aux;
+			            aux = false;
+			            
+			            function caps(){
+			            
+			                if(aux == false){
+			                    aux = true;
+			                    $(document).ready(function(){
+			
+				                   $("#btn-troca-qdr").click(function(){
+			                        $(".teladefundo").css("background-image",'url(images/quadra_inteiraa.png)');
+				                   });
+				
+			                    });
+			                }     
+			                else{
+			                    aux = false;
+			                    $(document).ready(function(){
+			
+				                   $("#btn-troca-qdr").click(function(){
+			                        $(".teladefundo").css("background-image",'url(images/meiaQuadra.png)');
+				                   });
+			                    });
+			                }
+			            }
+		</script>
+
+		<script type="text/javascript">
+			function alteraImagem(img) {
+			         // debugger
+			             var src = img.src.substr(img.src.lastIndexOf('/') + 1, img.src.length);
+
+				            if (src == 'images/levantador.png') {
+					           img.src = 'images/um.png'; // tenho que passa o img pq a referencia da imagem
+				            } else { 
+					           img.src = 'images/levantador.png';
+				            }   
+			         }
+		</script>
+
+		<script type="text/javascript">
+			function sairdoapp(){
+			                navigator.app.exitApp();
+			            }
+		</script>
+
+	</body>
+
+</html>
